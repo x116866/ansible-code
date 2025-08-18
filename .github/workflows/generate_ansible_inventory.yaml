@@ -1,0 +1,40 @@
+name: Generate Ansible Inventory
+
+on:
+  workflow_dispatch:
+
+jobs:
+  generate-inventory:
+    runs-on: [ ansible-master ]
+
+    steps:
+     
+
+      - name: Create inventory directory
+        run: |
+          sudo -u shruti mkdir -p /home/shruti/ansible/
+          sudo chown -R shruti:shruti /home/shruti/ansible
+
+      - name: Generate inventory.yaml
+        run: |
+          sudo -u shruti bash -c 'cat > /home/shruti/ansible/inventory.yaml' << 'EOF'
+          ---
+          all:
+            children:
+              webservers:
+                hosts:
+                  web01:
+                    ansible_host: 10.128.0.4
+                    ansible_user: shruti
+                    
+
+              databases:
+                hosts:
+                  db01:
+                    ansible_host: 10.204.0.2
+                    ansible_user: shruti
+                    db_version: 14
+                   
+
+              
+          EOF
