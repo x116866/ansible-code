@@ -1,0 +1,16 @@
+name: Ansible Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-ansible-connections:
+    runs-on: [ ansible-master ]
+
+    steps:
+    
+      - name: Test connections with ping module
+        run: |
+          ansible all --list-hosts -i /home/videl/ansible/inventory.yaml
+          ansible all -m ping -i /home/videl/ansible/inventory.yaml
+
