@@ -1,9 +1,5 @@
 name: ROLES DEPLOY OF NGINX
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -23,6 +19,6 @@ jobs:
           ANSIBLE_HOST_KEY_CHECKING: False
         run: |
           pwd
-          cp /home/shruti/ansible/inventory.yaml  /home/shruti/ansible/roles/inventory.yaml 
-          cp /home/shruti/ansible/ansible.cfg  /home/shruti/ansible/roles/ansible.cfg 
-          ansible-playbook  ./ansible/site.yaml -i /home/shruti/ansible/inventory.yaml  --become
+          cp /home/videl/ansible/inventory.yaml  /home/videl/ansible/roles/inventory.yaml 
+          cp /home/videl/ansible/ansible.cfg  /home/videl/ansible/roles/ansible.cfg 
+          ansible-playbook  ./ansible/site.yaml -i /home/videl/ansible/inventory.yaml  --become
