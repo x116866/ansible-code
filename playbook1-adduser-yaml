@@ -1,0 +1,9 @@
+---
+- name: (optional field ) adding a user named ronny  , assinging a uid to the user 
+  hosts: web01
+  tasks:
+  - name: adding a user with uid
+    user:
+      name: ronny 
+      uid: 30015
+      state: present
