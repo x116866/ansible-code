@@ -1,0 +1,24 @@
+---    
+- name: understanding file module
+  hosts: db01
+  tasks:
+  - name: using file module
+    file:
+      path: /home/videl/file2.txt
+      owner: videl
+      mode: 644
+      state: touch
+
+  - name: adding a line in the file
+    lineinfile:
+      name:  /home/videl/file2.txt
+      line:  lets learn the lineinfile module. 
+      state: present
+
+  - name: adding a block in  the file
+    blockinfile:
+      name:  /home/videl/file2.txt
+      block:  |
+         this is first line in additional block 
+         this is a second line of additional block of text
+      state: present
