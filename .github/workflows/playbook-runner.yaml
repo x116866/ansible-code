@@ -17,4 +17,4 @@ jobs:
       - name: Execute Ansible Playbook
  
         run: |
-           ansible-playbook  playbook3-ansible-administration.yaml -i /home/shruti/ansible/inventory.yaml --become
+           ansible-playbook  playbook3-ansible-administration.yaml -i /home/videl/ansible/inventory.yaml --become
