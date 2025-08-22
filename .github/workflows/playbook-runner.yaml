@@ -5,7 +5,7 @@ on:
  pull_request:
    branches: [main]
  workflow_dispatch:
-  
+ 
 
 jobs:
   ansible-playbook:
@@ -15,6 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Execute Ansible Playbook
-     
-        run: |  
-           ansible-playbook  playbook1-adduser.yaml -i /home/videl/ansible/inventory.yaml --become
+ 
+        run: |
+           ansible-playbook  playbook3-ansible-administration.yaml -i /home/shruti/ansible/inventory.yaml --become
