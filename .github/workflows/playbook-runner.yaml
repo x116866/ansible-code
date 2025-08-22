@@ -1,0 +1,20 @@
+name: Run Ansible Playbook
+on:
+ push:
+   branches: [main]
+ pull_request:
+   branches: [main]
+ workflow_dispatch:
+  
+
+jobs:
+  ansible-playbook:
+    runs-on: [ ansible-master ]  # Change this if you're not using a self-hosted runner
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Execute Ansible Playbook
+     
+        run: |  
+           ansible-playbook  playbook1-useradd.yaml -i /home/shruti/ansible/inventory.yaml --become
