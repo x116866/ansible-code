@@ -1,0 +1,61 @@
+name: running the terraform code and generating the inventory file 
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    defaults:
+      run:
+        working-directory: /home/videl   # all steps use this folder
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+    
+
+      - name: Terraform Init
+     
+        run: |
+            cd /home/videl/
+            terraform init
+            terraform apply --auto-approve
+            terraform output external_ip  > ip.txt
+            echo "" >> ip.txt 
+
+         
+    
+         
+      
+      - name: Prepare Ansible inventory
+        run: |
+          cd /home/videl/
+          echo "[centos9]" > inventory
+          if [ -s ip.txt ]; then
+            while IFS= read -r ip; do
+              echo "$ip ansible_user=videl host_key_checking=False become_user=root become_method=sudo ansible_ssh_private_key_file=home/videl/.ssh/id_rsa ansible_python_interpreter=/usr/bin/python3 ansible_become=true" >> inventory
+            done < ip.txt
+          else
+            echo "ip.txt is empty!"
+          fi
+  
+      - name: Wait up to 3 minutes for SSH
+        run: |
+          for ip in $(cat /home/videl/ip.txt); do
+            echo "Waiting for SSH on $ip..."
+            timeout=180
+            waited=0
+            until ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa -q videl@$ip 'echo ok' 2>/dev/null; do
+              sleep 5
+              waited=$((waited + 5))
+              echo "Still waiting for $ip... (${waited}s)"
+              if [ $waited -ge $timeout ]; then
+                echo "Timeout reached waiting for $ip"
+                exit 1
+              fi
+            done
+            echo "SSH is up on videl@$ip"
+          done
