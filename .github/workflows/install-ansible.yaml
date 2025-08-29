@@ -1,10 +1,12 @@
+name:  installation ansible 
+
 on:
   workflow_dispatch:
 
 jobs:
-  install-ansible:
-    name: Install Ansible
-    runs-on: [ self-hosted, ansible-master, linux ]
+  deploy:
+    runs-on: self-hosted
+
 
     steps:
       - name: Show system info
@@ -19,8 +21,11 @@ jobs:
 
       - name: Install Ansible
         run: |
-          sudo dnf install -y ansible
+          sudo dnf install python3-pip
+          pip3 install ansible
+          
 
       - name: Check Ansible version
         run: |
-          ansible --version
+          ansible --version       
+          
